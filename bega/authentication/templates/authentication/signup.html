@@ -1,0 +1,24 @@
+{% extends 'scan/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="flex justify-center mt-28">
+    <div class="bg-white p-3 rounded-lg max-w-[40%] w-full flex justify-center items-center flex-col">
+        <p class="text-black text-3xl font-bold p-4 rounded-lg mt-5 max-w-[50%] break-words">Nouvelle inscription</p>
+        {% if form.errors %}
+            <div class="mb-8 mx-4 text-red-500">
+                {{ form.errors }}
+            </div>
+        {% endif %}
+        <form method="post" class="mb-8 mx-4">
+            <div class="mb-8">
+                {{ form.as_p }}
+            </div>
+            {% csrf_token %}
+            <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded w-full">
+                Inscrire l'utilisateur
+            </button>
+        </form>
+    </div>
+</div>
+{% endblock content %}

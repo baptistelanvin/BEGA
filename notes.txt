@@ -1,0 +1,34 @@
+Model Scan  : 
+	- nom de domaine (mode plusieurs multi domaine à faire plus tard)
+	- Options : 
+		-t, --tapirus
+		-g, --goat	
+		-o, --owl
+		-k, --kangaroo
+		-b, , --badger
+	- Limite : -l 
+	- DKIM
+
+
+- Faire les permissions :
+	- Admin :
+		- Créer un scan 
+		- Créer un user 
+		- Voir tous les scans
+	- Customer :
+		- Voir les scans leur appartenant
+		- Demander un scan
+		- Modifier un scan sauf nom de domaine
+		- Exécuter un scan
+
+Créer un nouveau Model dans Scan
+- Lien entre User et Nom de domaine (multi)
+
+- Demander un scan (choisir entre ceux les appartenant)
+
+
+
+superuser : begadmin
+Email address: begadmin@begadmin.com
+mdp : 5fc%&78u6N2*eFpv&2R4586Bt@
+Mot de passe User Test : StrongPassword123

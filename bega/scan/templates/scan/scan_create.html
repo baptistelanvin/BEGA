@@ -1,0 +1,26 @@
+{% extends 'scan/base.html' %}
+{% load crispy_forms_tags %}
+
+
+{% block content %}
+
+<div class="inset-0 flex justify-center items-center mt-28 mb-5">
+    <div class="bg-white p-6 rounded-lg max-w-[60%] w-full flex flex-col items-center">
+        <h1 class="text-black text-3xl font-bold rounded-lg text-center break-words mt-5">Création de scan</h1>
+        <div class="w-full flex justify-center mt-5">
+            <form action="" method="post" novalidate class="w-full max-w-lg">
+                {% csrf_token %}
+                {{form.as_p }}
+            </form>
+        </div>
+        <div class="flex justify-center space-x-4 mt-5">
+            <input type="submit" value="Créer" class="w-32 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+            <a href="{% url 'scan-list' %}" class="w-32 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded text-center flex items-center justify-center">
+                Retour
+            </a>
+        </div>
+    </div>
+</div>
+  
+  
+{% endblock %}

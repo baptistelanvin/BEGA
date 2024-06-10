@@ -1,0 +1,573 @@
+{% extends 'scan/base.html' %}
+{% block content %}
+<link rel="stylesheet" href="../../static/scan/styles.css">
+
+
+<div class="div-background-image">     
+    <main>
+        <div class="central-container">  
+            <div class="category-line-and-data">
+                <div class="category-line" onclick="toggleCategoryData(this)">
+                    <div class="category-title">Noms de domaines :</div>
+                    <img src="../../static/scan/fleche-droite.png" class="category-icon">
+                </div>
+                <div class="category-data-background inactive-background">
+                    <div class="category-data inactive">
+                        <table id="domainNameTable">
+                            <thead>
+                                <tr>
+                                    <th>Nom de domaines</th>
+                                    <th>IP</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for ip, domains in table_ip.items %}
+                                    <tr>
+                                        <td>{{domains.0}}.{{report.scan.domain_name}}</td>
+                                        <td rowspan="{{domains|length}}" class="td-ip">{{ip}}</td>
+                                    </tr>
+                                    {% for domain in domains|slice:"1:" %}
+                                    <tr>
+                                        <td>{{domain}}</td>
+                                    </tr>
+                                    {%endfor%}
+                                {%endfor%}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            
+            
+            <div class="category-line-and-data">           
+                <div class="category-line" onclick="toggleCategoryData(this)">
+                    <div class="category-title">Liste des services :</div>
+                    <img src="../../static/scan/fleche-droite.png" class="category-icon">
+                </div>
+                <div class="category-data-background inactive-background">
+                    <div class="category-data inactive">
+                        <div id="list-of-services">
+                            {%for ip, ports in domain.open_ports_by_ip.items%}
+                            <div class="id-div-data">
+                                <div class="ip-card-service">
+                                    <div class="ip-card-line">
+                                        <div class="ip-card-service-title">{{ip}}</div>
+                                    </div>
+                                    
+                                    <table>
+                                        {%for port in ports%}
+                                        <tr>
+                                            <td>{{port}}</td>
+                                            <td>HTTP</td>
+                                        </tr>
+                                        {%endfor%}
+                                    </table>
+                                    
+                                    <div class="line-between-card inactive"></div>
+                                </div>
+                                <div class="ip-card-service ip-card-service-goat inactive">
+                                    <div class="ip-card-line">
+                                        <div class="ip-card-service-title">HTTPS details</div>
+                                    </div>
+                                    
+                                    <div class="details-goat-cypher">
+                                        TLS_1.2: 
+                                        <span class="secure tooltip">secure (3)
+                                            
+                                            <span class="tooltiptext">
+                                                <p>
+                                                    TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384<br>
+                                                    TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305_SHA256<br>
+                                                    TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256<br>
+                                                </p>
+                                            </span>
+                                        </span>, 
+                                        <span class="weak tooltip">weak (2)
+                                            <span class="tooltiptext">
+                                                <p>
+                                                    TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384<br>
+                                                    TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256<br>
+                                                </p>
+                                            </span>
+                                        </span>
+                                    </div>
+                                    <div class="details-goat-cypher">
+                                        TLS_1.3: <span class="recommended tooltip">recommended (3)
+                                            <span class="tooltiptext">
+                                                <p>
+                                                    TLS_AES_256_GCM_SHA384<br>
+                                                    TLS_CHACHA20_POLY1305_SHA256<br>
+                                                    TLS_AES_128_GCM_SHA256<br>
+                                                </p>
+                                            </span>
+                                        </span>
+                                    </div>
+                                    <div class="detail-goat-certificate-chain">
+                                        <p>Certificate chain :</p>
+                                        <div class="detail-goat-certificate-chain-data" onclick="allowCopyValue(this)" >b14e9afc7b42b8610b11df76cc575780f44dac07dd5f356b81619e533def3a74</div>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                            {%endfor%}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            
+            <div class="category-line-and-data">           
+                <div class="category-line" onclick="toggleCategoryData(this)">
+                    <div class="category-title">Vulnérabilités :</div>
+                    <img src="../../static/scan/fleche-droite.png" class="category-icon">
+                </div>
+                <div class="category-data-background inactive-background">
+                    <div class="category-data inactive">
+                        <div class="div-table-vulns">
+                            <table class="vulns-table">
+                                <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th>ID de la CVE</th>
+                                        <th>Note CVSS</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td rowspan="6">195.154.40.126</td>
+                                        <td class="cve-id" onclick="toggleCVECard('CVE-2019-12528')">CVE-2019-12528</td>
+                                        <td>5.0</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="cve-id" onclick="toggleCVECard('CVE-2019-12529')">CVE-2019-12529</td>
+                                        <td>4.3</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="cve-id">CVE-2019-12520</td>
+                                        <td>5.0</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="cve-id">CVE-2019-12521</td>
+                                        <td>4.3</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="cve-id">CVE-2019-12522</td>
+                                        <td>4.4</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="cve-id">CVE-2019-12523</td>
+                                        <td>6.4</td>
+                                    </tr>
+                                    <tr>
+                                        <td rowspan="3">15.12.35.45</td>
+                                        <td class="cve-id">CVE-2021-33620</td>
+                                        <td>4.0</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="cve-id">CVE-2018-1000024</td>
+                                        <td>5.0</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="cve-id">CVE-2022-41318</td>
+                                        <td class="null">null</td>
+                                    </tr>
+
+                                </tbody>
+                                <div id="line-between-card-vulns" class="inactive"></div>
+                            </table>
+
+
+                            <div class="vulns-div-details inactive" id="CVE-2019-12528">
+                                <div class="title-id-cve">CVE-2019-12528</div>
+                                Summary :
+                                <div class="summary-cve">An issue was discovered in Squid before 4.10. It allows a crafted FTP server to trigger disclosure of sensitive information from heap memory, such as information associated with other users' sessions or non-Squid processes.
+                                </div>
+                                References :
+                                <div class="reference">
+                                    <ul>
+                                        <li><a href="http://www.squid-cache.org/Advisories/SQUID-2020_2.txt">http://www.squid-cache.org/Advisories/SQUID-2020_2.txt</a></li>
+                                        <li><a href="https://usn.ubuntu.com/4289-1/">https://usn.ubuntu.com/4289-1/</a></li>
+                                        <li><a href="http://lists.opensuse.org/opensuse-security-announce/2020-03/msg00012.html">http://lists.opensuse.org/opensuse-security-announce/2020-03/msg00012.html</a></li>
+                                        <li><a href="https://security.gentoo.org/glsa/202003-34">https://security.gentoo.org/glsa/202003-34</a></li>
+                                        <li><a href="https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/G6W2IQ7QV2OGREFFUBNVZIDD3RJBDE4R/">https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/G6W2IQ7QV2OGREFFUBNVZIDD3RJBDE4R/</a></li>
+                                        <li><a href="https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/TSU6SPANL27AGK5PCGBJOKG4LUWA555J/">https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/TSU6SPANL27AGK5PCGBJOKG4LUWA555J/</a></li>
+                                        <li><a href="http://lists.opensuse.org/opensuse-security-announce/2020-05/msg00010.html">http://lists.opensuse.org/opensuse-security-announce/2020-05/msg00010.html</a></li>
+                                        <li><a href="https://www.debian.org/security/2020/dsa-4682">https://www.debian.org/security/2020/dsa-4682</a></li>
+                                        <li><a href="http://lists.opensuse.org/opensuse-security-announce/2020-05/msg00018.html">http://lists.opensuse.org/opensuse-security-announce/2020-05/msg00018.html</a></li>
+                                        <li><a href="https://lists.debian.org/debian-lts-announce/2020/07/msg00009.html">https://lists.debian.org/debian-lts-announce/2020/07/msg00009.html</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+
+
+                            <div class="vulns-div-details inactive" id="CVE-2019-12529">
+                                <div class="title-id-cve">CVE-2019-12529</div>
+                                Summary :
+                                <div class="summary-cve">An issue was discovered in Squid 2.x through 2.7.STABLE9, 3.x through 3.5.28, and 4.x through 4.7. When Squid is configured to use Basic Authentication, the Proxy-Authorization header is parsed via uudecode. uudecode determines how many bytes will be decoded by iterating over the input and checking its table. The length is then used to start decoding the string. There are no checks to ensure that the length it calculates isn't greater than the input buffer. This leads to adjacent memory being decoded as well. An attacker would not be able to retrieve the decoded data unless the Squid maintainer had configured the display of usernames on error pages.
+                                </div>
+                                References :
+                                <div class="reference">
+                                    <ul>
+                                        <li><a href="http://www.squid-cache.org/Advisories/SQUID-2020_2.txt">http://www.squid-cache.org/Advisories/SQUID-2020_2.txt</a></li>
+                                        <li><a href="https://usn.ubuntu.com/4289-1/">https://usn.ubuntu.com/4289-1/</a></li>
+                                        <li><a href="http://lists.opensuse.org/opensuse-security-announce/2020-03/msg00012.html">http://lists.opensuse.org/opensuse-security-announce/2020-03/msg00012.html</a></li>
+                                        <li><a href="https://security.gentoo.org/glsa/202003-34">https://security.gentoo.org/glsa/202003-34</a></li>
+                                        <li><a href="https://lists.debian.org/debian-lts-announce/2020/07/msg00009.html">https://lists.debian.org/debian-lts-announce/2020/07/msg00009.html</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="category-line-and-data">           
+                <div class="category-line" onclick="toggleCategoryData(this)">
+                    <div class="category-title">Emails :</div>
+                    <img src="../../static/scan/fleche-droite.png" class="category-icon">
+                </div>
+                <div class="category-data-background inactive-background">
+                    <div class="category-data inactive">
+                        <div id="list-of-emails">
+                            <div class="div-meails-table-and-line">
+                                <table id="mails-leaked-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Mails pwned</th>
+                                            <th>Nombres de brêches</th>
+                                            <th>Source</th>
+                                            <th>Noms des leaks</th>
+                                        </tr>
+                                        
+                                    </thead>
+                                    <tbody>                                            
+                                        {% for email_info in badger.emails_leaked %}
+                                        <tr>
+                                            <td class="name-email" onclick="allowCopyValue(this)"><div class="hover-selection">{{email_info.email}}</div></td>
+                                            <td> {{email_info.total_leaks}}</td>
+                                            <td>Google Dorks</td>
+                                            <td>
+                                                <div class="list-of-leaks">
+                                                    {% for leak in email_info.leaks_with_passwords %}
+                                                    <div class="with-password" onclick="toggLeakCard('leak-1')">{{leak}}</div>
+                                                    {%endfor%}
+                                                    {% for leak in email_info.leaks_without_passwords %}
+                                                    <div class="without-password" onclick="toggLeakCard('leak-1')">{{leak}}</div>
+                                                    {%endfor%}
+                                                </div>
+                                            </td>
+                                           
+                                        </tr> 
+                                        {%endfor%}
+                                <div class="legende-email"><div class="carre-orange"></div>leak sans mot de passe<br><div class="carre-rouge"></div>leak avec mot de passe</div>
+                                <div id="line-between-card-email" class="inactive"></div>
+                            </div>
+                            
+
+                            <table id="leak-1" class="leak-details-table inactive">
+                                <tbody>
+                                    <tr>
+                                        <td>Nom</td>
+                                        <td>LinkedInScrape</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Title</td>
+                                        <td>LinkedIn Scraped Data</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Domain</td>
+                                        <td><a href="http://linkedin.com">linkedin.com</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td>BreachDate</td>
+                                        <td>2021-04-08</td>
+                                    </tr>
+                                    <tr>
+                                        <td>AddedDate</td>
+                                        <td>2021-10-02T21:39:21Z</td>
+                                    </tr>
+                                    <tr>
+                                        <td>ModifiedDate</td>
+                                        <td>2021-10-02T21:48:03Z</td>
+                                    </tr>
+                                    <tr>
+                                        <td>PwnCount</td>
+                                        <td>125698496</td>
+                                    </tr>
+                                    <tr>
+                                        <td>DataClasses</td>
+                                        <td>    
+                                            Education levels<br>
+                                            Email addresses<br>
+                                            Genders<br>
+                                            Geographic locations<br>
+                                            Job titles<br>
+                                            Names<br>
+                                            Social media profiles</td>
+                                    </tr>
+                                    <tr>
+                                        <td>IsVerified</td>
+                                        <td><div class="true">true</div></td>
+                                    </tr>
+                                    <tr>
+                                        <td>IsFabricated</td>
+                                        <td><div class="false">false</div></td>
+                                    </tr>
+                                    <tr>
+                                        <td>IsSensitive</td>
+                                        <td><div class="false">false</div></td>
+                                    </tr>
+                                    <tr>
+                                        <td>IsRetired</td>
+                                        <td><div class="false">false</div></td>
+                                    </tr>
+                                    <tr>
+                                        <td>IsSpamList</td>
+                                        <td><div class="false">false</div></td>
+                                    </tr>
+                                    <tr>
+                                        <td>IsMalware</td>
+                                        <td><div class="false">false</div></td>
+                                    </tr>
+                                        
+                                </tbody>
+                                    
+                            </table>
+
+
+                            <table id="leak-2" class="leak-details-table inactive">
+                                <tbody>
+                                    <tr>
+                                        <td>Nom</td>
+                                        <td>AntiPublic</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Title</td>
+                                        <td>Anti Public Combo List</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Domain</td>
+                                        <td class="null">null</td>
+                                    </tr>
+                                    <tr>
+                                        <td>BreachDate</td>
+                                        <td>2016-12-16</td>
+                                    </tr>
+                                    <tr>
+                                        <td>AddedDate</td>
+                                        <td>2017-05-04T22:07:38Z</td>
+                                    </tr>
+                                    <tr>
+                                        <td>ModifiedDate</td>
+                                        <td>2017-05-04T22:07:38Z</td>
+                                    </tr>
+                                    <tr>
+                                        <td>PwnCount</td>
+                                        <td>457962538</td>
+                                    </tr>
+                                    <tr>
+                                        <td>DataClasses</td>
+                                        <td>    
+                                            Email addresses<br>
+                                            Passwords<br>
+                                    </tr>
+                                    <tr>
+                                        <td>IsVerified</td>
+                                        <td><div class="false">false</div></td>
+                                    </tr>
+                                    <tr>
+                                        <td>IsFabricated</td>
+                                        <td><div class="false">false</div></td>
+                                    </tr>
+                                    <tr>
+                                        <td>IsSensitive</td>
+                                        <td><div class="false">false</div></td>
+                                    </tr>
+                                    <tr>
+                                        <td>IsRetired</td>
+                                        <td><div class="false">false</div></td>
+                                    </tr>
+                                    <tr>
+                                        <td>IsSpamList</td>
+                                        <td><div class="false">false</div></td>
+                                    </tr>
+                                    <tr>
+                                        <td>IsMalware</td>
+                                        <td><div class="false">false</div></td>
+                                    </tr>
+                                        
+                                </tbody>
+                                    
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+                
+                
+            <div class="category-line-and-data">           
+                <div class="category-line" onclick="toggleCategoryData(this)">
+                    <div class="category-title">DNS :</div>
+                    <img src="../../static/scan/fleche-droite.png" class="category-icon">
+                </div>
+                <div class="category-data-background inactive-background">
+                    <div class="category-data inactive">
+                        <div class="dns-tables">
+                            <table class="dns-table">
+                                <tbody>
+                                    <tr>
+                                        <td class="title">MX</td>
+                                        <td>maltem-com.mail.protection.outlook.com.</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="title">PTR</td>
+                                        <td>cluster003.ovh.net.</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="title">TXT</td>
+                                        <td><div class="code copy-text" onclick="allowCopyValue(this)">"\"MS=ms48555116\"",
+                                            "\"google-site-verification=D3e8fknX2BYQOYk4vuuVSeleZ_H2glf22l11uhyShYw\"",
+                                            "\"zoho-verification=zb1577716256923.zmverify.zoho.com\"",
+                                            "\"google-site-verification=2TZK3lSC0Qu-JPlrqYjgvFLdHAk0jZM0BkLtvrO0-hc\"",
+                                            "\"dropbox-domain-verification=my1kvljtv9k1\"",
+                                            "\"v=spf1 a mx ip4:185.182.168.55 ip4:54.37.149.121 ip4:46.235.17.252 ip4:46.235.17.141 ip4:195.167.194.152 ip4:13.74.148.1 ip4:52.169.4.45 ip4:40.66.63.91 ip4:40.66.63.90 ip4:40.66.63.89 ip4:130.93.17.122 include:spf.protection.outlook.com include:servers.mcsv.net include:zcsend.net include:sendgrid.net include:eu.mailgun.org -all\""
+                                        </div></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <table class="dns-table">
+                                <tbody>
+                                    <tr>
+                                        <td colspan="2" class="title">DKIM</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2"><div class="code copy-text" onclick="allowCopyValue(this)">v=DKIM1; k=rsa; p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC0bw8Oxypf60Gr/K1T8gUE4oqgVO1n7ucuKqy5U8PKDJcIJtupiTCDW/QWwpx12koA+/kepItdtapVlLQU4vInNgvu5tZDvYK4D9/devF3saAmdWIPP2Nn5bl91FMC0Eo++KpxUyauzZRXEfLS6lkm7MvjxBVjkRgjzcfvwyoNlwIDAQAB; n=1024,1450357204,1466168404
+                                        </div></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="title">v</td>
+                                        <td>DKIM1</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="title">p</td>
+                                        <td><div class="code copy-text" onclick="allowCopyValue(this)">MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC0bw8Oxypf60Gr/K1T8gUE4oqgVO1n7ucuKqy5U8PKDJcIJtupiTCDW/QWwpx12koA+/kepItdtapVlLQU4vInNgvu5tZDvYK4D9/devF3saAmdWIPP2Nn5bl91FMC0Eo++KpxUyauzZRXEfLS6lkm7MvjxBVjkRgjzcfvwyoNlwIDAQAB</div></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="title">t</td>
+                                        <td class="null">null</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="title">g</td>
+                                        <td class="null">null</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="title">h</td>
+                                        <td class="null">null</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="title">k</td>
+                                        <td>rsa</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="title">n</td>
+                                        <td>1024,1450357204,1466168404</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="title">s</td>
+                                        <td class="null">null</td>
+                                    </tr>
+                                    
+
+
+                                </tbody>
+                            </table>
+
+
+                            <table class="dns-table">
+                                <tbody>
+                                    <tr>
+                                        <td class="title">SPF</td>
+                                    </tr>
+                                    <tr>
+                                        <td><div class="code copy-text" onclick="allowCopyValue(this)">
+                                            v=spf1 a mx ip4:185.182.168.55 ip4:54.37.149.121 ip4:46.235.17.252 ip4:46.235.17.141 ip4:195.167.194.152 ip4:13.74.148.1 ip4:52.169.4.45 ip4:40.66.63.91 ip4:40.66.63.90 ip4:40.66.63.89 ip4:130.93.17.122 include:spf.protection.outlook.com include:servers.mcsv.net include:zcsend.net include:sendgrid.net include:eu.mailgun.org -all
+
+                                        </div></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                                
+                            <table class="dns-table">
+                                <tbody>
+                                    <tr>
+                                        <td colspan="2" class="title">DMARC</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2"><div class="code copy-text" onclick="allowCopyValue(this)">v=DMARC1; p=quarantine; rua=mailto:6a31fc98@mxtoolbox.dmarc-report.com; ruf=mailto:dmarc-alertes@maltem.com; fo=1;
+                                        </div></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="title">v</td>
+                                        <td>DMARC1</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="title">p</td>
+                                        <td>quarantine</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="title">sp</td>
+                                        <td class="null">null</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="title">pct</td>
+                                        <td class="null">null</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="title">rua</td>
+                                        <td>mailto:6a31fc98@mxtoolbox.dmarc-report.com</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="title">ruf</td>
+                                        <td>mailto:dmarc-alertes@maltem.com</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="title">fo</td>
+                                        <td>1</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="title">rf</td>
+                                        <td class="null">null</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="title">ri</td>
+                                        <td class="null">null</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="title">adkim</td>
+                                        <td class="null">null</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="title">aspf</td>
+                                        <td class="null">null</td>
+                                    </tr>
+                                        
+                                </tbody>
+                            </table>
+
+                        </div>
+                        
+                    </div>
+                </div>
+                
+            </div>
+                                    
+        </div>
+
+    </main>
+    <script src="../../static/scan/script.js"></script>
+</div>
+</body>
+</html>
+{% endblock %}

@@ -1,0 +1,83 @@
+{% extends 'scan/base.html' %}
+{%load static%}
+
+{% block content %}
+<div class="inset-0 flex justify-center items-center mt-28 mb-5">
+    <div class="bg-white p-6 rounded-lg max-w-[40%] w-full flex justify-center flex-col">
+        <div class="flex justify-center items-center">
+            <img id="logoBega" src="{% static 'scan/LOGO.png' %}" class="w-1/2 h-auto">
+        </div>
+        <h1 class="text-black text-3xl font-bold rounded-lg text-center break-words mt-5">Mentions légales</h1>
+
+        <div class="border-b-4 border-blue-500">
+            <h2 class="text-black text-2xl font-bold mt-4">Éditeur du site :</h2>
+            <p class="mb-4 text-center">Bega Audit Solutions.<br>
+            [Adresse complète de l'entreprise]<br>
+            [Numéro de téléphone]<br>
+            [Adresse e-mail]</p>
+        </div>
+
+        <div class="border-b-4 border-blue-500 mt-10">
+            <h2 class="text-black text-2xl font-bold">Directeur de la publication :</h2>
+            <p class="mb-4 text-center">Baptiste LANVIN<br>
+            [Poste du directeur de publication]</p>
+        </div>
+
+        <div class="border-b-4 border-blue-500 mt-10">
+            <h2 class="text-black text-2xl font-bold">Hébergeur du site :</h2>
+            <p class="mb-4 text-center">OVH<br>
+            2 rue Kellermann - 59100 Roubaix - France<br>
+            N° Tél. : 1007<br>
+            [Adresse e-mail de l'hébergeur]</p>
+        </div>
+        
+        <div class="border-b-4 border-blue-500 mt-10">        
+            <h2 class="text-black text-2xl font-bold">Propriété intellectuelle :</h2>
+            <p class="mb-4 text-justify">Le site Bega et l'ensemble de son contenu, y compris les textes, images, graphismes, logos, icônes, sons, logiciels et autres éléments, sont la propriété exclusive de Bega Audit Solutions, sauf indication contraire. Toute reproduction, distribution, modification, adaptation, retransmission ou publication, même partielle, de ces différents éléments est strictement interdite sans l'accord écrit de Bega Audit Solutions.<br><br> Cette représentation ou reproduction, par quelque procédé que ce soit, constitue une contrefaçon sanctionnée par les articles L.335-2 et suivants du Code de la propriété intellectuelle.</p>
+        </div>
+
+        <div class="border-b-4 border-blue-500 mt-10">        
+            <h2 class="text-black text-2xl font-bold">Protection des données personnelles :</h2>
+            <p class="mb-4 text-justify">Conformément à la réglementation en vigueur, notamment le Règlement Général sur la Protection des Données (RGPD) et la loi Informatique et Libertés du 6 janvier 1978 modifiée, Bega Audit Solutions s'engage à protéger les données personnelles des utilisateurs du site.<br><br>  Pour plus d'informations sur la manière dont nous collectons, utilisons et protégeons vos données personnelles, veuillez consulter notre <a href="[lien vers la politique de confidentialité]">Politique de Confidentialité</a>.</p>
+        </div>
+        
+        <div class="border-b-4 border-blue-500 mt-10">        
+            <h2 class="text-black text-2xl font-bold">Cookies :</h2>
+            <p class="mb-4 text-justify">Le site Bega utilise des cookies pour améliorer l'expérience utilisateur. En continuant à naviguer sur le site, vous acceptez l'utilisation de cookies conformément à notre <a href="[lien vers la politique de cookies]">Politique de Cookies</a>.</p>
+        </div>
+        
+        <div class="border-b-4 border-blue-500 mt-10">        
+            <h2 class="text-black text-2xl font-bold">Limitation de responsabilité :</h2>
+            <p class="mb-4 text-justify">Bega Audit Solutions s'efforce de fournir des informations exactes et mises à jour sur son site. Cependant, Bega Audit Solutions ne saurait être tenu responsable des erreurs ou omissions dans le contenu du site. Les informations fournies sont à titre indicatif et ne remplacent pas un conseil professionnel.<br><br>  Bega Audit Solutions décline toute responsabilité pour les dommages résultant de l'utilisation ou de l'impossibilité d'utiliser le site.</p>
+        </div>
+        
+        <div class="border-b-4 border-blue-500 mt-10">        
+            <h2 class="text-black text-2xl font-bold">Liens hypertextes :</h2>
+            <p class="mb-4 text-justify">Le site Bega peut contenir des liens vers d'autres sites internet. Bega Audit Solutions n'assume aucune responsabilité quant au contenu de ces sites externes et ne saurait être tenu responsable des dommages ou préjudices résultant de leur utilisation. La création de liens hypertextes vers le site Bega est soumise à l'accord préalable de Bega Audit Solutions.</p>
+        </div>
+        
+        <div class="border-b-4 border-blue-500 mt-10">        
+            <h2 class="text-black text-2xl font-bold">Modification des mentions légales :</h2>
+            <p class="mb-4 text-justify">Bega Audit Solutions se réserve le droit de modifier les présentes mentions légales à tout moment. Les modifications entrent en vigueur dès leur publication en ligne. Il est recommandé aux utilisateurs de consulter régulièrement cette page pour prendre connaissance des éventuelles modifications.</p>
+        </div>
+        
+        <div class="border-b-4 border-blue-500 mt-10">        
+            <h2 class="text-black text-2xl font-bold">Droit applicable et juridiction compétente :</h2>
+            <p class="mb-4 text-justify">Les présentes mentions légales sont régies par le droit français. Tout litige relatif à l'utilisation du site Bega sera soumis à la compétence exclusive des tribunaux français.</p>
+        </div>
+        
+        <div class="border-b-4 border-blue-500 mt-10">        
+            <h2 class="text-black text-2xl font-bold">Contact :</h2>
+            <p class="mb-4 text-justify">Pour toute question concernant ces mentions légales, vous pouvez nous contacter à l'adresse suivante : [Adresse e-mail de contact].</p>
+        </div>
+        
+        <div class="border-b-4 border-blue-500 mt-10">
+            <h2 class="text-black text-2xl font-bold">Information Complémentaire pour Conformité :</h2>
+            <p class="mb-4 text-center">Numéro d'identification :<br>Numéro SIRET : [Votre numéro SIRET]<br>
+                Code APE : [Votre code APE]<br>
+                Déclaration CNIL :</p>
+            <p class="mb-4 text-justify"> Conformément à la loi "Informatique et Libertés" du 6 janvier 1978 modifiée, le site a fait l'objet d'une déclaration auprès de la CNIL sous le numéro [numéro de déclaration].</p>
+        </div>
+    </div>
+</div>
+{% endblock %}

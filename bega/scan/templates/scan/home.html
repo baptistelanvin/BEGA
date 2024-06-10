@@ -1,0 +1,52 @@
+{% extends 'scan/base.html' %}
+{%load static%}
+
+{% block content %}
+
+<!-- Image principale -->
+<div class="relative w-full h-[80vh] overflow-hidden">
+    <!-- Image de fond -->
+    <img src="{% static 'scan/homebg.png' %}" class="absolute inset-0 w-full h-auto object-cover z-0">
+        
+    <!-- Texte superposé -->
+    <div class="absolute flex inset-y-0 left-0 flex-col justify-start items-start z-10 mt-40 ml-20 max-h-[10vh]">
+        <img id="logoBega" src="{% static 'scan/LOGO.png' %}" class="max-w-md">
+        <h1 class="text-black text-3xl bg-white p-4 rounded-lg mt-5 max-w-[50%] break-words">
+            L'agrégateur de données publiques !
+        </h1>
+        <h1 class="text-black text-3xl bg-white p-4 rounded-lg mt-5 max-w-[50%] break-words text-justify">
+            Envie de réaliser un audit de vos données publiques de manière simple, légale, rapide et peu coûteuse ? B.E.G.A est fait pour vous ! Prenez contact avec nos équipes ou connectez-vous à votre espace avec le bouton ci-dessous.
+        </h1>
+        <div class="flex justify-center items-center mt-5 w-[40%]">
+            <a href="#" class="bg-white hover:bg-blue-700 text-black font-bold py-2 px-6 rounded mx-2 w-1/2 text-center">
+                Contactez-nous
+            </a>
+            {%  if user.is_authenticated %}
+                <a href="{% url 'logout' %}" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-6 rounded mx-2 w-1/2 text-center">
+                    Déconnexion
+                </a>
+            {%else%}
+                <a href="{% url 'login' %}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded mx-2 w-1/2 text-center">
+                    Connexion
+                </a>
+            {%endif%}
+        </div>
+    </div>
+</div>
+
+<!-- Bas de page -->
+<div class="bg-white w-full h-full pt-5 flex items-center justify-start flex-col">
+    <div class="flex justify-center items-center mt-5">
+        <svg class="w-16 h-16 text-black" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v10.586l3.293-3.293a1 1 0 111.414 1.414l-5 5a1 1 0 01-1.414 0l-5-5a1 1 0 111.414-1.414L9 14.586V4a1 1 0 011-1z" clip-rule="evenodd" />
+        </svg>
+    </div>
+    
+    <h1 class="text-black text-3xl font-bold p-4 rounded-lg mt-5 max-w-[50%] break-words">
+        Découvrez les fonctionnalités de l'outil !
+    </h1>
+</div>
+
+
+
+{% endblock %}

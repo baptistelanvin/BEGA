@@ -1,0 +1,29 @@
+{% extends 'scan/base.html' %}
+
+{% block content %}
+
+<div class="inset-0 flex justify-center items-center mt-28 mb-5">
+    <div class="bg-white p-6 rounded-lg max-w-[60%] w-full flex justify-center flex-col">
+        <h1 class="text-black text-3xl font-bold rounded-lg text-center break-words mt-5">Vos scans B.E.G.A</h1>
+        <p class="text-center italic mt-5">Cliquez sur le nom d'un scan pour le consulter. <br> ✏️ Cliquez sur le crayon pour le modifier. <br> 🗑️ Cliquez sur la poubelle pour le supprimer.</p>
+        <ul class="w-full">
+            {% for scan in scans %}
+                <li class="border-b border-blue-500 py-2 my-2">
+                    <div class="flex justify-between items-center hover:font-bold">
+                        <span><a href="{% url 'scan-detail' scan.id %}">{{ scan.domain_name }}</a></span>
+                        <span>
+                            <a href="{% url 'scan-update' scan.id %}" class="mr-2">✏️</a>
+                            <a href="{% url 'scan-delete' scan.id %}">🗑️</a>
+                        </span>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+        <div class="flex justify-end mt-5 w-full">
+            <a href="{% url 'scan-create' %}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded">Créer un nouveau Scan</a>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

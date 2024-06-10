@@ -11,7 +11,7 @@
 ##### Bega :
 
 ```
-git clone https://github.com/Lotter-35/bega.git
+git clone https://github.com/baptistelanvin/BEGA
 cd bega
 ```
 

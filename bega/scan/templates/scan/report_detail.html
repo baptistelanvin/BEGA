@@ -47,7 +47,7 @@
                 <div class="category-data-background inactive-background">
                     <div class="category-data inactive">
                         <div id="list-of-services">
-                            {%for ip, ports in domain.open_ports_by_ip.items%}
+                            {%for ip, ports in open_port.items%}
                             <div class="id-div-data">
                                 <div class="ip-card-service">
                                     <div class="ip-card-line">
@@ -55,10 +55,10 @@
                                     </div>
                                     
                                     <table>
-                                        {%for port in ports%}
+                                        {%for port, service in ports.items%}
                                         <tr>
                                             <td>{{port}}</td>
-                                            <td>HTTP</td>
+                                            <td>{{service}}</td>
                                         </tr>
                                         {%endfor%}
                                     </table>
@@ -245,8 +245,8 @@
                                         {% for email_info in badger.emails_leaked %}
                                         <tr>
                                             <td class="name-email" onclick="allowCopyValue(this)"><div class="hover-selection">{{email_info.email}}</div></td>
-                                            <td> {{email_info.total_leaks}}</td>
-                                            <td>Google Dorks</td>
+                                            <td>{{email_info.total_leaks}}</td>
+                                            <td>{{email_info.source}}</td>
                                             <td>
                                                 <div class="list-of-leaks">
                                                     {% for leak in email_info.leaks_with_passwords %}
@@ -422,17 +422,11 @@
                                     </tr>
                                     <tr>
                                         <td class="title">PTR</td>
-                                        <td>cluster003.ovh.net.</td>
+                                        <td>{{data_dns.PTR}}</td>
                                     </tr>
                                     <tr>
                                         <td class="title">TXT</td>
-                                        <td><div class="code copy-text" onclick="allowCopyValue(this)">"\"MS=ms48555116\"",
-                                            "\"google-site-verification=D3e8fknX2BYQOYk4vuuVSeleZ_H2glf22l11uhyShYw\"",
-                                            "\"zoho-verification=zb1577716256923.zmverify.zoho.com\"",
-                                            "\"google-site-verification=2TZK3lSC0Qu-JPlrqYjgvFLdHAk0jZM0BkLtvrO0-hc\"",
-                                            "\"dropbox-domain-verification=my1kvljtv9k1\"",
-                                            "\"v=spf1 a mx ip4:185.182.168.55 ip4:54.37.149.121 ip4:46.235.17.252 ip4:46.235.17.141 ip4:195.167.194.152 ip4:13.74.148.1 ip4:52.169.4.45 ip4:40.66.63.91 ip4:40.66.63.90 ip4:40.66.63.89 ip4:130.93.17.122 include:spf.protection.outlook.com include:servers.mcsv.net include:zcsend.net include:sendgrid.net include:eu.mailgun.org -all\""
-                                        </div></td>
+                                        <td><div class="code copy-text" onclick="allowCopyValue(this)">{{data_dns.TXT}}</div></td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -443,40 +437,39 @@
                                         <td colspan="2" class="title">DKIM</td>
                                     </tr>
                                     <tr>
-                                        <td colspan="2"><div class="code copy-text" onclick="allowCopyValue(this)">v=DKIM1; k=rsa; p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC0bw8Oxypf60Gr/K1T8gUE4oqgVO1n7ucuKqy5U8PKDJcIJtupiTCDW/QWwpx12koA+/kepItdtapVlLQU4vInNgvu5tZDvYK4D9/devF3saAmdWIPP2Nn5bl91FMC0Eo++KpxUyauzZRXEfLS6lkm7MvjxBVjkRgjzcfvwyoNlwIDAQAB; n=1024,1450357204,1466168404
-                                        </div></td>
+                                        <td colspan="2"><div class="code copy-text" onclick="allowCopyValue(this)">{{data_dns.DKIM.Record}}</div></td>
                                     </tr>
                                     <tr>
                                         <td class="title">v</td>
-                                        <td>DKIM1</td>
+                                        <td>{{data_dns.DKIM.v}}</td>
                                     </tr>
                                     <tr>
                                         <td class="title">p</td>
-                                        <td><div class="code copy-text" onclick="allowCopyValue(this)">MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC0bw8Oxypf60Gr/K1T8gUE4oqgVO1n7ucuKqy5U8PKDJcIJtupiTCDW/QWwpx12koA+/kepItdtapVlLQU4vInNgvu5tZDvYK4D9/devF3saAmdWIPP2Nn5bl91FMC0Eo++KpxUyauzZRXEfLS6lkm7MvjxBVjkRgjzcfvwyoNlwIDAQAB</div></td>
+                                        <td><div class="code copy-text" onclick="allowCopyValue(this)">{{data_dns.DKIM.p}}</div></td>
                                     </tr>
                                     <tr>
                                         <td class="title">t</td>
-                                        <td class="null">null</td>
+                                        <td>{{data_dns.DKIM.t}}</td>
                                     </tr>
                                     <tr>
                                         <td class="title">g</td>
-                                        <td class="null">null</td>
+                                        <td>{{data_dns.DKIM.g}}</td>
                                     </tr>
                                     <tr>
                                         <td class="title">h</td>
-                                        <td class="null">null</td>
+                                        <td>{{data_dns.DKIM.h}}</td>
                                     </tr>
                                     <tr>
                                         <td class="title">k</td>
-                                        <td>rsa</td>
+                                        <td>{{data_dns.DKIM.k}}</td>
                                     </tr>
                                     <tr>
                                         <td class="title">n</td>
-                                        <td>1024,1450357204,1466168404</td>
+                                        <td>{{data_dns.DKIM.n}}</td>
                                     </tr>
                                     <tr>
                                         <td class="title">s</td>
-                                        <td class="null">null</td>
+                                        <td>{{data_dns.DKIM.s}}</td>
                                     </tr>
                                     
 
@@ -491,10 +484,7 @@
                                         <td class="title">SPF</td>
                                     </tr>
                                     <tr>
-                                        <td><div class="code copy-text" onclick="allowCopyValue(this)">
-                                            v=spf1 a mx ip4:185.182.168.55 ip4:54.37.149.121 ip4:46.235.17.252 ip4:46.235.17.141 ip4:195.167.194.152 ip4:13.74.148.1 ip4:52.169.4.45 ip4:40.66.63.91 ip4:40.66.63.90 ip4:40.66.63.89 ip4:130.93.17.122 include:spf.protection.outlook.com include:servers.mcsv.net include:zcsend.net include:sendgrid.net include:eu.mailgun.org -all
-
-                                        </div></td>
+                                        <td><div class="code copy-text" onclick="allowCopyValue(this)">{{data_dns.SPF.Record}}</div></td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -505,52 +495,51 @@
                                         <td colspan="2" class="title">DMARC</td>
                                     </tr>
                                     <tr>
-                                        <td colspan="2"><div class="code copy-text" onclick="allowCopyValue(this)">v=DMARC1; p=quarantine; rua=mailto:6a31fc98@mxtoolbox.dmarc-report.com; ruf=mailto:dmarc-alertes@maltem.com; fo=1;
-                                        </div></td>
+                                        <td colspan="2"><div class="code copy-text" onclick="allowCopyValue(this)">{{data_dns.DMARC.Record}}</div></td>
                                     </tr>
                                     <tr>
                                         <td class="title">v</td>
-                                        <td>DMARC1</td>
+                                        <td>{{data_dns.DMARC.v}}</td>
                                     </tr>
                                     <tr>
                                         <td class="title">p</td>
-                                        <td>quarantine</td>
+                                        <td>{{data_dns.DMARC.p}}</td>
                                     </tr>
                                     <tr>
                                         <td class="title">sp</td>
-                                        <td class="null">null</td>
+                                        <td>{{data_dns.DMARC.sp}}</td>
                                     </tr>
                                     <tr>
                                         <td class="title">pct</td>
-                                        <td class="null">null</td>
+                                        <td>{{data_dns.DMARC.pct}}</td>
                                     </tr>
                                     <tr>
                                         <td class="title">rua</td>
-                                        <td>mailto:6a31fc98@mxtoolbox.dmarc-report.com</td>
+                                        <td>{{data_dns.DMARC.rua}}</td>
                                     </tr>
                                     <tr>
                                         <td class="title">ruf</td>
-                                        <td>mailto:dmarc-alertes@maltem.com</td>
+                                        <td>{{data_dns.DMARC.ruf}}</td>
                                     </tr>
                                     <tr>
                                         <td class="title">fo</td>
-                                        <td>1</td>
+                                        <td>{{data_dns.DMARC.fo}}</td>
                                     </tr>
                                     <tr>
                                         <td class="title">rf</td>
-                                        <td class="null">null</td>
+                                        <td>{{data_dns.DMARC.rf}}</td>
                                     </tr>
                                     <tr>
                                         <td class="title">ri</td>
-                                        <td class="null">null</td>
+                                        <td>{{data_dns.DMARC.ri}}</td>
                                     </tr>
                                     <tr>
                                         <td class="title">adkim</td>
-                                        <td class="null">null</td>
+                                        <td>{{data_dns.DMARC.adkim}}</td>
                                     </tr>
                                     <tr>
                                         <td class="title">aspf</td>
-                                        <td class="null">null</td>
+                                        <td>{{data_dns.DMARC.aspf}}</td>
                                     </tr>
                                         
                                 </tbody>

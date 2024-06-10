@@ -22,6 +22,7 @@ from signal import signal, SIGINT
 import sys
 import bega.settings as settings
 import ipaddress
+import socket
 
 def is_valid_ip(address):
     try:
@@ -29,6 +30,12 @@ def is_valid_ip(address):
         return True
     except ValueError:
         return False
+
+def get_service_name(port):
+    try:
+        return socket.getservbyport(port)
+    except OSError:
+        return "Service inconnu"
 
 def home(request):
    return render(request,'scan/home.html')
@@ -112,14 +119,30 @@ def report_detail(request, id):
     domain = report.data.get('tapirus', {}).get('domain', {})
     badger_data = report.data.get('badger', {}).get(report.scan.domain_name, {})
 
-    for email_info in badger_data.get('emails_leaked', []):
-        email_info['total_leaks'] = len(email_info.get('leaks_with_passwords', [])) + len(email_info.get('leaks_without_passwords', []))
+    date = '-'.join(report.name.split('-')[0:6])
+    path =  f"{settings.BASE_DIR.parent}/reports/{report.name}/badger/{date}-emails-{report.scan.domain_name}.json"
+    with open(path) as f:
+        email_data = json.load(f)
+        email_data = email_data['mails']
+        for email_info in badger_data.get('emails_leaked', []):
+            email_info['total_leaks'] = len(email_info.get('leaks_with_passwords', [])) + len(email_info.get('leaks_without_passwords', []))
+            for item in email_data :
+                if item['email'] == email_info['email']:
+                    email_info['source'] = item['source']
 
     date = '-'.join(report.name.split('-')[0:6])
     path =  f"{settings.BASE_DIR.parent}/reports/{report.name}/{date}-shodan-{report.scan.domain_name}.json"
     with open(path) as f:
         data_shodan = json.load(f)
     
+    open_ports = dict()
+    open_ports['data'] = {}
+    for ip, ports in domain['open_ports_by_ip'].items():
+        open_ports["data"][ip] = dict()
+        for port in ports: 
+            open_ports["data"][ip][port] = get_service_name(port)
+
+
     data_shodan= data_shodan['data']
     table_ip = dict()
     for element in data_shodan:
@@ -128,16 +151,17 @@ def report_detail(request, id):
                 table_ip[element['value']].append(element['subdomain'])
             else : 
                 table_ip[element['value']] =  [element['subdomain']]
+
     
-    path =  f"{settings.BASE_DIR.parent}/reports/{report.name}/{date}-shodan-{report.scan.domain_name}.json"
+    path =  f"{settings.BASE_DIR.parent}/reports/{report.name}/kangaroo/{date}-dnsrecords-{report.scan.domain_name}.json"
     with open(path) as f:
-        data_shodan = json.load(f)
+        data_dns = json.load(f)
     
 
 
     return render(request,
           'scan/report_detail.html',
-         {'report': report, 'domain' : domain,'badger': badger_data, 'table_ip' : table_ip})
+         {'report': report, 'domain' : domain,'badger': badger_data, 'table_ip' : table_ip, 'data_dns': data_dns, 'open_port' : open_ports['data']})
 
 @login_required
 def report_delete(request, id):
